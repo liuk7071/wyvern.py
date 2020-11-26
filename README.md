@@ -7,7 +7,7 @@ A Python wrapper for the Wyvern API by [@HUSKI3](https://github.com/HUSKI3).
 ## How to use
 First of all import the wyvern library and create a wyvern session object.
 ```python
-from wyvernpy import wyvern
+from wyvernpy import wyvern (doesnt work yet btw)
  
 bot = wyvern.wyvern_session("YOUR WYVERN ID HERE", "YOUR TOKEN HERE", "COMMAND_PREFIX")
 ```
