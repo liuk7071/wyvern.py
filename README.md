@@ -1,5 +1,5 @@
 # Wyvern.py
-A Python wrapper for the Wyvern API by @HUSKI3.
+A Python wrapper for the Wyvern API by [@HUSKI3](https://github.com/HUSKI3).
 
 ## Installation
 > pip install wyvernpy
