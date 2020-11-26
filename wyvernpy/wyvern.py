@@ -1,20 +1,26 @@
 import requests
-from wyvernpy import wyvern_server, wyvern_member
+from wyvernpy import wyvern_server, wyvern_member, wyvern_channel
+
 import json
 import ast
+import threading
+import asyncio
+from functools import wraps
 
 class wyvern_session:
-    __slots__ = ("id", "token")
+    __slots__ = ("id", "token", "prefix", "commands")
 
-    def __init__(self, id: str, token: str):
+    def __init__(self, id: str, token: str, prefix: str):
         self.id = id
         self.token = token
+        self.prefix = prefix
+        self.commands = []
         session_check = requests.get("http://78.141.209.47:3030/api/getuser?token=" + token)
         if session_check.status_code == 200:
             if session_check.json()[2] == id:
                 print("Ready")
             else:
-                raise Exception("Invalid Wyvern ID")
+                raise Exception("Wyvern ID does not match token.")
         else:
             raise Exception("Invalid token")
 
@@ -51,3 +57,35 @@ class wyvern_session:
                 return wyvern_member.member(user_json.json())
         except:
             raise Exception("Failed to retreive user info with error code " + str(user_json.status_code))
+    
+    def getChannel(self, serverID, id):
+      server = self.getServer(serverID)
+      if id in server.channels:
+        return wyvern_channel.channel(serverID, id)
+      else:
+        raise Exception("channel is not in server")
+      
+
+
+
+    # command handling
+    def command(self, func):
+      @wraps(func)
+      async def wrapped(*args, **kwargs):
+        async def async_while():
+          run = False
+          json = requests.get("http://78.141.209.47:3030/api/getmessagesfromuser?token=" + self.token).json()
+          if json[4] == self.prefix + func.__name__:
+            await func()
+        loop = asyncio.get_event_loop()
+        loop.create_task(async_while())
+        try:
+          loop.run_forever()
+        except:
+          pass
+      return wrapped
+
+    
+
+      
+      
