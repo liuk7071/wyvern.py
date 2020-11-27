@@ -45,7 +45,7 @@ class wyvern_session:
             server_json = requests.get("http://78.141.209.47:3030/api/getserver?serverid=" + server_id)
             return wyvern_server.server(server_json.json()[0])
         except:
-            raise Exception("Failed to retreive server with error code " + str(server_json.status_code))
+            raise Exception("Failed to retrieve server with error code " + str(server_json.status_code))
     
     def getUser(self, user_id = None):
         try:
@@ -56,16 +56,15 @@ class wyvern_session:
                 user_json = requests.get("http://78.141.209.47:3030/api/getuserinfo?wyvernid=" + self.id)
                 return wyvern_member.member(user_json.json())
         except:
-            raise Exception("Failed to retreive user info with error code " + str(user_json.status_code))
+            raise Exception("Failed to retrieve user info with error code " + str(user_json.status_code))
     
     def getChannel(self, serverID, id):
       server = self.getServer(serverID)
       if id in server.channels:
         return wyvern_channel.channel(serverID, id)
       else:
-        raise Exception("channel is not in server")
+        raise Exception("The channel ID could not be found in the specified server")
       
-
 
 
     # command handling
