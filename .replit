@@ -1,2 +1,2 @@
 language = "python"
-run = "./venv/Scripts/activate && python3 test.py"
+run = "./venv/Scripts/activate && poetry run python3 test.py"

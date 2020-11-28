@@ -1,5 +1,5 @@
 import requests
-from wyvernpy import wyvern_server, wyvern_member, wyvern_channel
+from wyvernpy import wyvern_server, wyvern_member, wyvern_channel, context
 
 import json
 import ast
@@ -18,9 +18,9 @@ class wyvern_session:
         session_check = requests.get("http://78.141.209.47:3030/api/getuser?token=" + token)
         if session_check.status_code == 200:
             if session_check.json()[2] == id:
-                print("Ready")
+                print("[Ready]")
             else:
-                raise Exception("Wyvern ID does not match token.")
+                raise Exception("Wyvern ID does not match token")
         else:
             raise Exception("Invalid token")
 
@@ -68,14 +68,20 @@ class wyvern_session:
 
 
     # command handling
+    def getContext(self, json):
+      return context.ctx(json)
+      
+
+
     def command(self, func):
       @wraps(func)
       async def wrapped(*args, **kwargs):
         async def async_while():
           run = False
           json = requests.get("http://78.141.209.47:3030/api/getmessagesfromuser?token=" + self.token).json()
+          await asyncio.sleep(0)
           if json[4] == self.prefix + func.__name__:
-            await func()
+            await func(self.getContext(json))
         loop = asyncio.get_event_loop()
         loop.create_task(async_while())
         try:
@@ -85,6 +91,3 @@ class wyvern_session:
       return wrapped
 
     
-
-      
-      
