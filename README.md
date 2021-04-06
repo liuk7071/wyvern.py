@@ -2,10 +2,10 @@
 A Python wrapper for the Wyvern API by [@HUSKI3](https://github.com/HUSKI3).
 
 ## Installation
-> pip install wyvernpy (doesnt work yet btw if u want to try it clone the repo activate the venv and run setup.py bdist_wheel)
+> pip install wyvernpy (doesnt work yet lol)
 
 ## How to use
-First of all import the wyvern library and create a wyvern session object.
+Import the wyvern library and create a wyvern session object.
 ```python
 from wyvernpy import wyvern 
 
