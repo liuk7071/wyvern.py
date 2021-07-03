@@ -1,4 +1,4 @@
-# Wyvern.py
+# Wyvern.py (Going an overhaul to match latest version of the WyvernAPI)
 A Python wrapper for the Wyvern API by [@HUSKI3](https://github.com/HUSKI3).
 
 ## Installation
